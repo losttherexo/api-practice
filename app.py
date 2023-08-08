@@ -36,7 +36,22 @@ class Store(Resource):
 
         return response
     
+class StoreByName(Resource):
+    def get(self, name):
+        for s in stores:
+            if s['name'] == name:
+                print(name)
+                response = make_response(s, 201)
+
+                return response
+        response = make_response({'error': '404, Store not found'}, 404)
+        
+        return response
+    
 class StoreItem(Resource):
+    def get(self, name):
+        pass
+
     def post(self, name):
         data = request.get_json()
 
@@ -53,6 +68,7 @@ class StoreItem(Resource):
     
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
+api.add_resource(StoreByName, '/store/<string:name>')
 api.add_resource(StoreItem, '/store/<string:name>/item')
 
 if __name__ == '__main__':
