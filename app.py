@@ -30,7 +30,8 @@ class Store(Resource):
         data = request.get_json()
 
         new_store = {
-            'name': data['name']
+            'name': data['name'],
+            'items': []
         }
 
         stores.append(new_store)
