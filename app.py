@@ -29,20 +29,29 @@ class Store(Resource):
     def post(self):
         data = request.get_json()
 
-        new_store = {
-            'name': data['name'],
-            'items': []
-        }
+        new_store = {'name': data['name'], 'items': []}
 
         stores.append(new_store)
         response = make_response(new_store, 201)
 
         return response
-        
+    
+class StoreItem(Resource):
+    def post(self, name):
+        data = request.get_json()
 
+        for s in stores:
+            if s['name'] == name:
+                new_item = {'name': data['name'], 'price': data['price']}
+                s['items'].append(new_item)
+
+                response = make_response(new_item, 201)
+                return response
+        return 404
     
 api.add_resource(Home, '/')
-api.add_resource(Store, '/stores')
+api.add_resource(Store, '/store')
+api.add_resource(StoreItem, '/store/<string:name>/item')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
