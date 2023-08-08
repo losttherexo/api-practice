@@ -18,7 +18,7 @@ stores = [
 
 class Store(Resource):
     def get(self):
-        return stores, 200
+        return {"stores": stores}, 200
     
 api.add_resource(Store, '/stores')
 
