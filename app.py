@@ -47,7 +47,9 @@ class StoreItem(Resource):
 
                 response = make_response(new_item, 201)
                 return response
-        return 404
+            
+        response = make_response({'error': '404, Store not found'}, 404)
+        return response
     
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
