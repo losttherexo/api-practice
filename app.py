@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, make_response
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -22,7 +22,9 @@ class Home(Resource):
 
 class Store(Resource):
     def get(self):
-        return {"stores": stores}, 200
+        response = make_response(stores, 200)
+
+        return response
     
 api.add_resource(Home, '/')
 api.add_resource(Store, '/stores')
