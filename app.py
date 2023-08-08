@@ -16,10 +16,15 @@ stores = [
     }
 ]
 
+class Home(Resource):
+    def get(self):
+        return "This is the home page :)"
+
 class Store(Resource):
     def get(self):
         return {"stores": stores}, 200
     
+api.add_resource(Home, '/')
 api.add_resource(Store, '/stores')
 
 if __name__ == '__main__':
