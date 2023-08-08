@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, request
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -18,7 +18,7 @@ stores = [
 
 class Home(Resource):
     def get(self):
-        return "This is the home page :)"
+        return 'This is the home page :)'
 
 class Store(Resource):
     def get(self):
@@ -26,8 +26,22 @@ class Store(Resource):
 
         return response
     
+    def post(self):
+        data = request.get_json()
+
+        new_store = {
+            'name': data['name']
+        }
+
+        stores.append(new_store)
+        response = make_response(new_store, 201)
+
+        return response
+        
+
+    
 api.add_resource(Home, '/')
 api.add_resource(Store, '/stores')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5555, debug=True)
