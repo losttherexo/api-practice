@@ -1,6 +1,10 @@
 FROM python:3.8
 EXPOSE 5555
 WORKDIR /app
-RUN pip install flask
+RUN pip install pipenv
+COPY Pipfile Pipfile.lock /app/
+RUN pipenv install --deploy --ignore-pipfile
 COPY . .
-CMD ["flask", "run", "--host", "0.0.0.0"]
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+CMD ["pipenv", "run", "flask", "run"]
