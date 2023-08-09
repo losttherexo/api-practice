@@ -21,7 +21,7 @@ class Store(Resource):
         data = request.get_json()
         id = uuid.uuid4().hex
 
-        new_store = {**data, "id": id}
+        new_store = {**data, 'id': id}
 
         stores[id] = new_store
         response = make_response(new_store, 201)
@@ -35,20 +35,30 @@ class StoreById(Resource):
 
             return response
         except KeyError: 
-            abort(404, message="Store not found.")
+            abort(404, message='Store not found.')
     
 class Item(Resource):
     def get(self):
         response = make_response(list(items.values()), 200)
 
-        print(items)
         return response
 
     def post(self):
         data = request.get_json()
 
+        if ('price' not in data
+            or 'name' not in data or 'store_id' not in data):
+            abort(400, message='Incorrect JSON payload.')
+
+        for item in items.values():
+            if (
+                data['name'] == item['name']
+                and data['store_id'] == item['store_id']
+            ):
+                abort(400, message='Item already exists.')
+
         if data['store_id'] not in stores:
-            abort(404, message="Store not found.")
+            abort(404, message='Store not found.')
 
         id = uuid.uuid4().hex
         item = {**data, 'id': id}
