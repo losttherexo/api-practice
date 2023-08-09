@@ -44,6 +44,15 @@ class StoreById(Resource):
             return response
         except KeyError: 
             abort(404, message='Store not found.')
+
+    def delete(self, store_id):
+        try:
+            del stores[store_id]
+            response = make_response({'message': 'Store deleted.'}, 204)
+
+            return response
+        except KeyError:
+            abort(404, message='Store not found.')    
     
 class Item(Resource):
     def get(self):
@@ -106,7 +115,7 @@ class ItemById(Resource):
                 if key in item:
                     item[key] = data[key]
             response = make_response(item, 200)
-            
+
             return response
         except KeyError:
             abort(404, message='Item not found.')
