@@ -62,8 +62,8 @@ class ItemByName(Resource):
 
             return response
         except KeyError: 
-            abort(404, message="Store not found.")
-            
+            abort(404, message="Item not found.")
+
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
 api.add_resource(StoreByName, '/store/<string:store_id>')
