@@ -28,10 +28,10 @@ class Store(Resource):
 
         return response
     
-class StoreByName(Resource):
+class StoreById(Resource):
     def get(self, store_id):
         try:
-            response = make_response(stores['store_id'], 200)
+            response = make_response(stores[store_id], 200)
 
             return response
         except KeyError: 
@@ -57,10 +57,10 @@ class Item(Resource):
 
         return response
     
-class ItemByName(Resource):
+class ItemById(Resource):
     def get(self, item_id):
         try:
-            response = make_response(items['item_id'], 200)
+            response = make_response(items[item_id], 200)
 
             return response
         except KeyError: 
@@ -68,9 +68,9 @@ class ItemByName(Resource):
 
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
-api.add_resource(StoreByName, '/store/<string:store_id>')
+api.add_resource(StoreById, '/store/<string:store_id>')
 api.add_resource(Item, '/item')
-api.add_resource(ItemByName, '/item/<string:item_id>')
+api.add_resource(ItemById, '/item/<string:item_id>')
 
 if __name__ == '__main__':
     app.run()
