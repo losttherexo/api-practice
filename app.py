@@ -41,6 +41,7 @@ class Item(Resource):
     def get(self):
         response = make_response(list(items.values()), 200)
 
+        print(items)
         return response
 
     def post(self):
@@ -51,6 +52,7 @@ class Item(Resource):
 
         id = uuid.uuid4().hex
         item = {**data, 'id': id}
+        items[id] = item
         response = make_response(item, 201)
 
         return response
