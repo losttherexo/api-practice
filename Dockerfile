@@ -1,5 +1,5 @@
 FROM python:3.8
-EXPOSE 5555
+EXPOSE 5000
 workdir /app
 RUN pip install flask flask-restful
 COPY . .

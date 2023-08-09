@@ -79,4 +79,4 @@ api.add_resource(StoreByName, '/store/<string:name>')
 api.add_resource(StoreItem, '/store/<string:name>/item')
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run()
