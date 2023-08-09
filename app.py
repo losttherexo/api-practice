@@ -19,6 +19,14 @@ class Store(Resource):
     
     def post(self):
         data = request.get_json()
+
+        if 'name' not in data:
+            abort(400, message='Incorrect JSON Payload.')
+
+        for store in stores.values():
+            if data['name'] == store['name']:
+                abort(400, message='Store already exists.')
+
         id = uuid.uuid4().hex
 
         new_store = {**data, 'id': id}
