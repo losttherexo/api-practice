@@ -84,6 +84,15 @@ class ItemById(Resource):
         except KeyError: 
             abort(404, message="Item not found.")
 
+    def delete(self, item_id):
+        try:
+            del items[item_id]
+            response = make_response({'message': 'Item Deleted.'}, 204)
+
+            return response
+        except KeyError:
+            abort(404, message="Item not found.")
+
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
 api.add_resource(StoreById, '/store/<string:store_id>')
