@@ -1,20 +1,10 @@
 from flask import Flask, make_response, request
 from flask_restful import Resource, Api
 
+from db import stores, items
+
 app = Flask(__name__)
 api = Api(app)
-
-stores = [
-    {
-        "name": "My Store",
-        "items": [
-            {
-                "name": "chair",
-                "price": 15.99
-            }
-        ]
-    }
-]
 
 class Home(Resource):
     def get(self):
