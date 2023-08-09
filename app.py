@@ -1,5 +1,6 @@
 import uuid
 from flask import Flask, make_response, request
+from flask_smorest import abort
 from flask_restful import Resource, Api
 from db import items, stores
 
@@ -34,9 +35,7 @@ class StoreByName(Resource):
 
             return response
         except KeyError: 
-            response = make_response({'error': '404, Store not found'}, 404)
-
-            return response
+            abort(404, message="Store not found.")
     
 class Item(Resource):
     def get(self):
@@ -48,9 +47,7 @@ class Item(Resource):
         data = request.get_json()
 
         if data['store_id'] not in stores:
-            response = make_response({'error': '404, Store not found'}, 404)
-
-            return response
+            abort(404, message="Store not found.")
 
         id = uuid.uuid4().hex
         item = {**data, 'id': id}
@@ -65,10 +62,8 @@ class ItemByName(Resource):
 
             return response
         except KeyError: 
-            response = make_response({'error': '404, Store not found'}, 404)
-
-            return response
-
+            abort(404, message="Store not found.")
+            
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
 api.add_resource(StoreByName, '/store/<string:store_id>')
