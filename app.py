@@ -21,7 +21,7 @@ class Store(Resource):
         data = request.get_json()
 
         if 'name' not in data:
-            abort(400, message='Incorrect JSON Payload.')
+            abort(400, message='Bad Request. Invalid JSON Payload.')
 
         for store in stores.values():
             if data['name'] == store['name']:
@@ -56,7 +56,7 @@ class Item(Resource):
 
         if ('price' not in data
             or 'name' not in data or 'store_id' not in data):
-            abort(400, message='Incorrect JSON payload.')
+            abort(400, message='Bad Request. Invalid JSON payload.')
 
         for item in items.values():
             if (
@@ -82,7 +82,7 @@ class ItemById(Resource):
 
             return response
         except KeyError: 
-            abort(404, message="Item not found.")
+            abort(404, message='Item not found.')
 
     def delete(self, item_id):
         try:
@@ -91,7 +91,25 @@ class ItemById(Resource):
 
             return response
         except KeyError:
-            abort(404, message="Item not found.")
+            abort(404, message='Item not found.')
+
+    def patch(self, item_id):
+        data = request.get_json()
+
+        if "price" not in data and "name" not in data:
+            abort(400, message='Bad Request. Invalid JSON payload.')
+
+        try:
+            item = items[item_id]
+
+            for key in data.keys():
+                if key in item:
+                    item[key] = data[key]
+            response = make_response(item, 200)
+            
+            return response
+        except KeyError:
+            abort(404, message='Item not found.')
 
 api.add_resource(Home, '/')
 api.add_resource(Store, '/store')
@@ -100,4 +118,4 @@ api.add_resource(Item, '/item')
 api.add_resource(ItemById, '/item/<string:item_id>')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, port=5555)
